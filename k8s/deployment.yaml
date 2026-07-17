@@ -24,7 +24,7 @@ spec:
 
       containers:
       - name: petclinic
-        image: 450444046629.dkr.ecr.eu-west-3.amazonaws.com/user31-petclinic:v1
+        image: ${IMAGE}
         imagePullPolicy: Always
 
         securityContext:
@@ -39,11 +39,19 @@ spec:
 
         env:
         - name: MYSQL_URL
-          value: jdbc:mysql://user31-db.cbueg002md6k.eu-west-3.rds.amazonaws.com:3306/petclinic
+          value: jdbc:mysql://${RDS}:3306/petclinic
 
         - name: MYSQL_USER
           value: admin
 
-        - name: MYSQL_PASSWORD
+        - name: MYSQL_PASS
           value: admin123!
+
+        volumeMounts:
+        - name: tmp-volume
+          mountPath: /tmp
+
+      volumes:
+      - name: tmp-volume
+        emptyDir: {}
 
